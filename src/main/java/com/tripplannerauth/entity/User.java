@@ -1,10 +1,12 @@
 package com.tripplannerauth.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @Entity(name = "usr")
@@ -14,13 +16,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String email;
-    private String password;
-    private String firstName;
-    private String secondName;
-    private Boolean isGoogleAccount;
+  @Id
+  private String email;
+  private String firstName;
+  private String secondName;
+  private Boolean isGoogleAccount;
 }
 

@@ -14,22 +14,11 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserResponse create(final UserRequest newUserRequest) {
-        var userEntity = buildUserEntity(newUserRequest);
-
-        var createdUser = userRepository.save(userEntity);
-
-        return new UserResponse(createdUser.getEmail());
+      return null;
     }
 
-    private User buildUserEntity(final UserRequest newUserRequest) {
-        var encryptedPassword = passwordEncoder.encode(newUserRequest.password());
-        return User.builder()
-                .email(newUserRequest.email())
-                .password(encryptedPassword)
-                .build();
-    }
+
 }
