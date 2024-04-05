@@ -40,7 +40,7 @@ public class CustomAuthenticationSuccessHandler
     authCookie.setHttpOnly(true);
     authCookie.setPath("/");
     response.addCookie(authCookie);
-    getRedirectStrategy().sendRedirect(request, response, "/");
+//    getRedirectStrategy().sendRedirect(request, response, "/");
   }
 
   private Key getKey() {

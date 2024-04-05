@@ -19,7 +19,7 @@ public class User {
   @Id
   private String email;
   private String firstName;
-  private String secondName;
+  private String lastName;
   private Boolean isGoogleAccount;
 }
 

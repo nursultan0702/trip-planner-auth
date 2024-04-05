@@ -42,7 +42,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     var newUser = User.builder()
         .email(user.getAttribute(EMAIL))
         .firstName(user.getAttribute(GIVEN_NAME))
-        .secondName(user.getAttribute(FAMILY_NAME))
+        .lastName(user.getAttribute(FAMILY_NAME))
         .isGoogleAccount(true)
         .build();
 
