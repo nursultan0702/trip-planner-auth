@@ -1,6 +1,7 @@
 package com.tripplannerauth.model;
 
-public record UserResponse(String username,
-                           String firstName,
-                           String lastName) {
+import lombok.Builder;
+
+@Builder
+public record UserResponse(String email, String firstName, String secondName) {
 }

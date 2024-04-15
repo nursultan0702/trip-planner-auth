@@ -9,9 +9,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -30,7 +33,7 @@ public class CustomAuthenticationSuccessHandler
   public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                       Authentication authentication) throws IOException {
     String token = Jwts.builder()
-        .subject(authentication.getName())
+        .subject(getEmail(authentication))
         .issuedAt(new Date())
         .expiration(new Date(System.currentTimeMillis() + expirationInMs))
         .signWith(SignatureAlgorithm.HS256, getKey())
@@ -40,7 +43,17 @@ public class CustomAuthenticationSuccessHandler
     authCookie.setHttpOnly(true);
     authCookie.setPath("/");
     response.addCookie(authCookie);
-//    getRedirectStrategy().sendRedirect(request, response, "/");
+    getRedirectStrategy().sendRedirect(request, response, "/");
+  }
+
+  private String getEmail(Authentication authentication) {
+    OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+    if (oAuth2User != null) {
+      Map<String, Object> attributes = oAuth2User.getAttributes();
+      return (String) attributes.get("email");
+    } else {
+      throw new UsernameNotFoundException("can't find email");
+    }
   }
 
   private Key getKey() {
