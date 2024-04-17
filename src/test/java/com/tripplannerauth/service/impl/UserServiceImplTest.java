@@ -48,9 +48,7 @@ public class UserServiceImplTest {
     String email = "nonexistent@example.com";
     when(userRepository.findById(email)).thenReturn(Optional.empty());
 
-    Exception exception = assertThrows(UsernameNotFoundException.class, () -> {
-      userService.getUserByEmail(email);
-    });
+    Exception exception = assertThrows(UsernameNotFoundException.class, () -> userService.getUserByEmail(email));
 
     assertTrue(exception.getMessage().contains("User not found. Email: " + email));
   }
