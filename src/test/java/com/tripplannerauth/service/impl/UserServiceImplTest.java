@@ -1,22 +1,24 @@
 package com.tripplannerauth.service.impl;
 
-import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 import com.tripplannerauth.entity.User;
+import com.tripplannerauth.exception.UserNotFoundException;
 import com.tripplannerauth.model.UserResponse;
 import com.tripplannerauth.repository.UserRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Optional;
-
 @ExtendWith(SpringExtension.class)
-public class UserServiceImplTest {
+class UserServiceImplTest {
 
   @Mock
   private UserRepository userRepository;
@@ -25,7 +27,7 @@ public class UserServiceImplTest {
   private UserServiceImpl userService;
 
   @Test
-  public void testGetUserByEmail_UserExists() {
+  void testGetUserByEmail_UserExists() {
     String email = "user@example.com";
     User mockUser = new User(email, "John", "Doe", true);
     when(userRepository.findById(email)).thenReturn(Optional.of(mockUser));
@@ -44,12 +46,14 @@ public class UserServiceImplTest {
   }
 
   @Test
-  public void testGetUserByEmail_UserNotFound() {
+  void testGetUserByEmail_UserNotFound() {
     String email = "nonexistent@example.com";
     when(userRepository.findById(email)).thenReturn(Optional.empty());
 
-    Exception exception = assertThrows(UsernameNotFoundException.class, () -> userService.getUserByEmail(email));
+    Exception exception =
+        assertThrows(UserNotFoundException.class, () -> userService.getUserByEmail(email));
 
-    assertTrue(exception.getMessage().contains("User not found. Email: " + email));
+    assertTrue(
+        exception.getMessage().contains(String.format("User with email %s not found", email)));
   }
 }

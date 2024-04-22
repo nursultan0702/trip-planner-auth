@@ -16,9 +16,11 @@ spring:
             client-id: ${GOOGLE_CLIENT_ID}
             client-secret: ${GOOGLE_CLIENT_SECRET}
             scope: profile,email
-
+  sql:
+    init:
+      mode: always
 app:
-  jwtSecret: ${SECRET_KEY}
+  jwtSecret: ${SECRET_KEY:21ad8624-a69b-4f46-a3a6-d76f4c50082c}
   jwtExpirationMs: 86400000
 
 eureka:
