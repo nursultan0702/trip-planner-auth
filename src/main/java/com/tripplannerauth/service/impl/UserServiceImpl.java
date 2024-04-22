@@ -17,6 +17,7 @@ public class UserServiceImpl implements UserService {
   public UserResponse getUserByEmail(String email) {
     var userByEmail = userRepository.findById(email)
         .orElseThrow(() -> new UsernameNotFoundException("User not found. Email: " + email));
+
     return UserResponse.builder()
         .email(userByEmail.getEmail())
         .firstName(userByEmail.getFirstName())
